@@ -1,4 +1,5 @@
 import * as THREE from 'three' // THREE library ko import kar rahe hain
+import gsap from 'gsap'
 
 //canvas
 const canvas = document.querySelector('canvas.webgl') // webgl canvas ko select kar rahe hain
@@ -8,7 +9,7 @@ const scene = new THREE.Scene() // ek naya scene create kar rahe hain
 
 //object
 const geometry = new THREE.BoxGeometry(1, 1, 1) // ek box geometry banate hain
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true }) // material set kar rahe hain, red color aur wireframe mode mein
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000}) // material set kar rahe hain, red color aur wireframe mode mein
 const mesh = new THREE.Mesh(geometry, material) // geometry aur material ko mila kar mesh banate hain
 scene.add(mesh) // mesh ko scene mein add kar rahe hain
 
@@ -28,4 +29,31 @@ const renderer = new THREE.WebGLRenderer({ // WebGL renderer create kar rahe hai
     canvas: canvas // renderer ko canvas pass kar rahe hain
 })
 renderer.setSize(sizes.width, sizes.height) // renderer ki size set kar rahe hain
-renderer.render(scene, camera) // scene ko camera ke saath render kar rahe hain
+
+
+// //clock
+// const clock = new THREE.Clock() // ek naya clock object create kar rahe hain
+
+gsap.to(mesh.position,{ duration:1, delay:1 ,x:2})
+gsap.to(mesh.position,{ duration:1, delay:2 ,x:0})
+
+//animations
+const tick = () => { // tick function define kar rahe hain
+    // //clock
+    // const elapsedTime = clock.getElapsedTime() // clock se elapsed time le rahe hain
+
+    // //update objects
+    // mesh.rotation.z = elapsedTime // mesh ki z rotation ko elapsed time se update kar rahe hain 
+
+    // //update objects
+    // // mesh.position.x += 0.01 // x position ko 0.01 se badha rahe hain (commented out)
+    // // mesh.position.y += 0.01 // y position ko 0.01 se badha rahe hain (commented out)
+    // // mesh.position.z += 0.01 // z position ko 0.01 se badha rahe hain (commented out)
+
+    // mesh.rotation.y += 0.01 // mesh ki y rotation ko 0.01 se update kar rahe hain
+
+    renderer.render(scene, camera) // scene ko camera ke saath render kar rahe hain
+    
+    window.requestAnimationFrame(tick) // next frame ke liye tick function ko call kar rahe hain
+}
+tick() // tick function ko pehli baar call kar rahe hain
