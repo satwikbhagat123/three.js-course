@@ -1,84 +1,86 @@
+// Importing Three.js library
 import * as THREE from 'three'
-import{ OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
+// Importing OrbitControls for camera control
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-//cursor
-const cursor ={
-    x : 0,
-    y : 0
+// Cursor object banate hain
+const cursor = {
+    x: 0, // Cursor ka x position
+    y: 0  // Cursor ka y position
 }
-window.addEventListener('mousemove',(event) =>
-{
-    cursor.x =event.clientX /sizes.width -0.5
-    cursor.y =(event.clientY /sizes.height -0.5)
-})
 
+// Mouse move event listener add karte hain
+window.addEventListener('mousemove', (event) => {
+    // Cursor ki x position ko screen width se normalize karte hain
+    cursor.x = event.clientX / sizes.width - 0.5
+    // Cursor ki y position ko screen height se normalize karte hain
+    cursor.y = (event.clientY / sizes.height - 0.5)
+})
 
 /**
  * Base
  */
-// Canvas
+// Canvas ko select karte hain
 const canvas = document.querySelector('canvas.webgl')
 
-// Sizes
+// Sizes object banate hain
 const sizes = {
-    width: 800,
-    height: 600
+    width: 800,  // Canvas ki width
+    height: 600  // Canvas ki height
 }
 
-// Scene
+// Scene create karte hain
 const scene = new THREE.Scene()
 
-// Object
+// Mesh object banate hain
 const mesh = new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1, 5, 5, 5),
-    new THREE.MeshBasicMaterial({ color: 0xff0000 })
+    new THREE.BoxGeometry(1, 1, 1, 5, 5, 5), // Box geometry define karte hain
+    new THREE.MeshBasicMaterial({ color: 0xff0000 }) // Material set karte hain
 )
+// Mesh ko scene mein add karte hain
 scene.add(mesh)
 
-// Camera
+// Camera create karte hain
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-// const aspectRatio = sizes.width / sizes.height
-// const camera = new THREE.OrthographicCamera(-1 * aspectRatio, 1 *aspectRatio, 1, -1, 0.1, 100)
-// camera.position.x = 2
-// camera.position.y = 2
-camera.position.z = 3
-camera.lookAt(mesh.position)
-scene.add(camera)
+// const aspectRatio = sizes.width / sizes.height // Aspect ratio calculate karte hain
+// const camera = new THREE.OrthographicCamera(-1 * aspectRatio, 1 * aspectRatio, 1, -1, 0.1, 100) // Orthographic camera banate hain
+// camera.position.x = 2 // Camera ki x position set karte hain
+// camera.position.y = 2 // Camera ki y position set karte hain
+camera.position.z = 3 // Camera ki z position set karte hain
+camera.lookAt(mesh.position) // Camera ko mesh ki taraf dekhne ke liye set karte hain
+scene.add(camera) // Camera ko scene mein add karte hain
 
-//controls
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping =true
+// Controls create karte hain
+const controls = new OrbitControls(camera, canvas) // OrbitControls ko camera aur canvas ke saath initialize karte hain
+controls.enableDamping = true // Damping enable karte hain for smooth movement
 
-// Renderer
+// Renderer create karte hain
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas // Renderer ko canvas ke saath initialize karte hain
 })
-renderer.setSize(sizes.width, sizes.height)
+renderer.setSize(sizes.width, sizes.height) // Renderer ki size set karte hain
 
-// Animate
-
-// const clock = new THREE.Clock()
-
-const tick = () =>
-{
-    // const elapsedTime = clock.getElapsedTime()
+// Animate function define karte hain
+const tick = () => {
+    // const elapsedTime = clock.getElapsedTime() // Elapsed time ko track karte hain (commented out)
 
     // Update objects
-    // mesh.rotation.y = elapsedTime;
+    // mesh.rotation.y = elapsedTime; // Mesh ki rotation update karte hain (commented out)
 
-//update camera
-    // camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3
-    // camera.position.y =Math.cos(cursor.x* Math.PI * 2) * 3
-    // camera.position.y = cursor.y*5
-    // camera.lookAt(mesh.position)
+    // Update camera
+    // camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3 // Camera ki x position update karte hain (commented out)
+    // camera.position.y = Math.cos(cursor.x * Math.PI * 2) * 3 // Camera ki y position update karte hain (commented out)
+    // camera.position.y = cursor.y * 5 // Camera ki y position cursor ke hisaab se update karte hain (commented out)
+    // camera.lookAt(mesh.position) // Camera ko mesh ki taraf dekhne ke liye set karte hain (commented out)
 
-    controls.update()
+    controls.update() // Controls ko update karte hain
 
-    // Render
-    renderer.render(scene, camera)
+    // Render karte hain
+    renderer.render(scene, camera) // Scene aur camera ko render karte hain
 
-    // Call tick again on the next frame
-    window.requestAnimationFrame(tick)
+    // Next frame par tick function ko call karte hain
+    window.requestAnimationFrame(tick) // Animation frame ke liye tick function ko call karte hain
 }
 
+// Tick function ko call karte hain
 tick()
