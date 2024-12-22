@@ -1069,5 +1069,204 @@ scene.add(camera) -->
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 day-3
 
-local server and build tools:-
-we could have created an HTML
+# we are having so many build tools like:-
+1. webpack
+2. vite
+3. gulp
+4. parcel and many more 
+
+the most popular build tool is vite .it is a french word which means "quick" and it is 
+1. fasterto install
+2. faster to run
+3. less prone to bugs
+4. much better developer experience  
+
+and here i am using vite in this whole course 
+
+# vite
+it is a build tool 
+in this we can add plugins in order to handle more features like exotic languages , or special files (GLSL and react )
+it is created by Evan You who also created Vue.js
+
+# first vite project
+
+## first know about terminals 
+        cd    :-  to change the current directory
+        ls     :-  to see what is in the cuurrent directory
+        pwd :- to show the current directory
+        clear:- to clear the terminal 
+
+## node.js
+        to run vite we need node.js so we need to download node.js 
+        and after that we can check if node.js is installed in ur computer or not by running below command in terminal
+
+        node -v
+
+        if terminal gives u version of node js then it is perfectly installed in ur computer  and make sure u download the LTS version
+
+## create a node.js project 
+        first make sure that u r in the right folder where u want to install the node js after that run the below command 
+
+        npm init -y
+
+        after running the command you will get the package.json file in ur project folder 
+
+## add dependencies
+        we are going to use Vite and Three.js
+        1. vite
+         to install vite 
+
+        npm i vite 
+
+        2. Three.js
+        to install Three.js 
+
+        npm i three
+
+create the html file and write the basic boilerplate code 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03-first three.js project</title>
+</head>
+<body>
+    <h1>soon to be a three.js website </h1>
+<script type="module" src="script.js"></script>
+</body>
+</html>
+
+in package.json, replace the "scripts" parts and write this below scripts 
+
+"scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  } ,
+
+now we can run our project by the below command 
+
+npm run dev
+
+then coppy the local host and paste it in the browser or if u hover the localhost u can click on follow that will also open the project 
+
+and to stop the server press ctrl and c it will stop the live server
+
+now create the script.js and link it in index.html
+make sure u write type="module" in script tag as given below 
+
+<script type="module" src="script.js"></script>
+
+# import Three.js
+
+import * as THREE from 'three'             // THREE library ko import kar rahe hain
+
+# first scene
+
+for this we need 4 elements
+1. scene
+like a container in which we put objects, models, particles,lights, etc.
+intantiate the scene class
+
+//scene
+const scene =new THREE.Scene()
+
+2. objects
+for this we need to create Mesh and this is combination of a geometry(the shape) and a material(how it looks)
+
+/object
+const geometry = new THREE.BoxGeometry(1, 1, 1) // ek box geometry banate hain
+
+create a MeshBasicMaterial and send it an object with a color property 
+
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true }) // material set kar rahe hain, red color aur wireframe mode mein
+
+there are many ways to specify a color in Three.js 
+    0xff0000
+    #ff0000
+    'red'
+    instance of a color class
+
+create final mesh
+
+const mesh = new THREE.Mesh(geometry, material) // geometry aur material ko mila kar mesh banate hain
+
+add mesh to the scene with the add(...) method
+
+scene.add(mesh)        // mesh ko scene mein add kar rahe hain
+
+3. camera
+
+//sizes
+const sizes = { // sizes ka object banate hain
+    width: 800, // width set kar rahe hain
+    height: 600 // height set kar rahe hain
+}
+
+//camera
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height) // perspective camera create kar rahe hain
+camera.position.z = 3 // camera ki z position set kar rahe hain
+scene.add(camera) // camera ko scene mein add kar rahe hain
+
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height) // perspective camera create kar rahe hain
+ here 75 is the field of view and normal human eyes field of view is also 75 so we put this as 75 
+ sizes.width / sizes.height these are the aspect ratio like what will be the size of the canvas it shows that in our case  
+ width: 800,height: 600  this will be a height and width of the canvas 
+
+camera.position.z = 3 // camera ki z position set kar rahe hain
+in this we can move the camera in x, y, z axis 
+
+ now in index.html remove the h1 tag and create a canvas element before you load the scripts and give it a class named .webgl
+
+     <canvas class="webgl"></canvas>
+
+create a canvas variable using 
+
+//canvas
+const canvas = document.querySelector('canvas.webgl')        // webgl canvas ko select kar rahe hain
+
+
+4. renderer
+
+//renderer
+const renderer = new THREE.WebGLRenderer({                            // WebGL renderer create kar rahe hain
+   canvas: canvas                                                                          // renderer ko canvas pass kar rahe hain
+})
+renderer.setSize(sizes.width, sizes.height)                                // renderer ki size set kar rahe hain
+renderer.render(scene, camera)                                                 // scene ko camera ke saath render kar rahe hain
+
+
+# final code
+
+import * as THREE from 'three' // THREE library ko import kar rahe hain
+
+//canvas
+const canvas = document.querySelector('canvas.webgl') // webgl canvas ko select kar rahe hain
+
+//scene
+const scene = new THREE.Scene() // ek naya scene create kar rahe hain
+
+//object
+const geometry = new THREE.BoxGeometry(1, 1, 1) // ek box geometry banate hain
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true }) // material set kar rahe hain, red color aur wireframe mode mein
+const mesh = new THREE.Mesh(geometry, material) // geometry aur material ko mila kar mesh banate hain
+scene.add(mesh) // mesh ko scene mein add kar rahe hain
+
+//sizes
+const sizes = { // sizes ka object banate hain
+    width: 800, // width set kar rahe hain
+    height: 600 // height set kar rahe hain
+}
+
+//camera
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height) // perspective camera create kar rahe hain
+camera.position.z = 3 // camera ki z position set kar rahe hain
+scene.add(camera) // camera ko scene mein add kar rahe hain
+
+//renderer
+const renderer = new THREE.WebGLRenderer({ // WebGL renderer create kar rahe hain
+    canvas: canvas // renderer ko canvas pass kar rahe hain
+})
+renderer.setSize(sizes.width, sizes.height) // renderer ki size set kar rahe hain
+renderer.render(scene, camera) // scene ko camera ke saath render kar rahe hain
